@@ -6,11 +6,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-latest]
+        os: [ubuntu-latest]
         build_type: [Release]
         enable_ui: [on]
         include:
-          - os: windows-latest
+          - os: ubuntu-latest
             build_type: Release
             enable_ui: on
     steps:
@@ -29,8 +29,7 @@ jobs:
       shell: bash
       run: |
         export enable_ccache=off
-        curl -L https://github.com/blueloveTH/aseprite/releases/download/v0.01/skia.zip --output skia.zip
-        curl -L https://github.com/blueloveTH/aseprite/releases/download/v0.01/libcrypto-1_1-x64.dll --output libcrypto-1_1-x64.dll
+        curl -L https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip --output skia.zip
         7z x skia.zip
         cmake -S . -B build -G Ninja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
@@ -44,10 +43,9 @@ jobs:
       shell: bash
       run: |
         cd build && ninja
+        ls
     - uses: actions/upload-artifact@v3
       with:
         name: aseprite
         path: |
-          libcrypto-1_1-x64.dll
-          D:/a/aseprite/aseprite/build/bin/data
-          D:/a/aseprite/aseprite/build/bin/aseprite.exe
+          $HOME/aseprite/build/bin/aseprite

@@ -40,6 +40,7 @@ jobs:
           -DENABLE_CCACHE=$enable_ccache \
           -DCMAKE_CXX_FLAGS=-stdlib=libc++ \
           -DCMAKE_EXE_LINKER_FLAGS=-stdlib=libc++ \
+          -DUSE_SHARED_=ON \
           -DLAF_BACKEND=skia \
           -DSKIA_DIR=./skia \
           -DSKIA_LIBRARY_DIR=./skia/out/Release-x64 \

@@ -6,11 +6,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest]
         build_type: [Release]
         enable_ui: [on]
         include:
-          - os: ubuntu-latest
+          - os: windows-latest
             build_type: Release
             enable_ui: on
     steps:
@@ -28,29 +28,26 @@ jobs:
     - name: Generating Makefiles
       shell: bash
       run: |
-        sudo apt-get install -y g++ clang libc++-dev libc++abi-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev webp
         export enable_ccache=off
-        wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip
-        7z x Skia-Linux-Release-x64-libc++.zip
-        mkdir build
-        cd build
-        export CC=clang
-        export CXX=clang++
-        cmake \
-          -DCMAKE_BUILD_TYPE=RelWithDebInfo \
-          -DCMAKE_CXX_FLAGS:STRING=-stdlib=libc++ \
-          -DCMAKE_EXE_LINKER_FLAGS:STRING=-stdlib=libc++ \
+        curl -L https://github.com/blueloveTH/aseprite/releases/download/v0.01/skia.zip --output skia.zip
+        curl -L https://github.com/blueloveTH/aseprite/releases/download/v0.01/libcrypto-1_1-x64.dll --output libcrypto-1_1-x64.dll
+        7z x skia.zip
+        cmake -S . -B build -G Ninja \
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
+          -DENABLE_UI=${{ matrix.enable_ui }} \
+          -DENABLE_CCACHE=$enable_ccache \
           -DLAF_BACKEND=skia \
-          -DSKIA_DIR=./Skia-Linux-Release-x64-libc++ \
-          -DSKIA_LIBRARY_DIR=./Skia-Linux-Release-x64-libc++/out/Release-x64 \
-          -DSKIA_LIBRARY=./Skia-Linux-Release-x64-libc++/out/Release-x64/libskia.a \
-          -G Ninja \ ..
+          -DSKIA_DIR=./skia \
+          -DSKIA_LIBRARY_DIR=./skia/out/Release-x64 \
+          -DSKIA_LIBRARY=./skia/out/Release-x64/skia.lib
     - name: Compiling
       shell: bash
       run: |
-        cd build && ninja aseprite
+        cd build && ninja
     - uses: actions/upload-artifact@v3
       with:
         name: aseprite
         path: |
-          ./Skia-Linux-Release-x64-libc++/aseprite/build/bin/aseprite
+          libcrypto-1_1-x64.dll
+          D:/a/aseprite/aseprite/build/bin/data
+          D:/a/aseprite/aseprite/build/bin/aseprite.exe

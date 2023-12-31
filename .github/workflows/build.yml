@@ -28,6 +28,7 @@ jobs:
     - name: Generating Makefiles
       shell: bash
       run: |
+        sudo apt-get install -y g++ clang libc++-dev libc++abi-dev cmake ninja-build libx11-dev libxcursor-dev libxi-dev libgl1-mesa-dev libfontconfig1-dev
         export enable_ccache=off
         curl -L https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip --output skia.zip
         7z x skia.zip

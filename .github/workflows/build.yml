@@ -56,4 +56,4 @@ jobs:
       with:
         name: aseprite
         path: |
-          $HOME/build/bin/aseprite
+          build/bin/

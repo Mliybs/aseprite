@@ -32,6 +32,7 @@ jobs:
         export enable_ccache=off
         curl -L https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip --output skia.zip
         7z x skia.zip
+        ls
         cmake -S . -B build -G Ninja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
           -DENABLE_UI=${{ matrix.enable_ui }} \

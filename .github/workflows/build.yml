@@ -29,16 +29,16 @@ jobs:
       shell: bash
       run: |
         export enable_ccache=off
-        wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libstdc++.zip
-        7z x Skia-Linux-Release-x64-libstdc++.zip
+        wget https://github.com/aseprite/skia/releases/download/m102-861e4743af/Skia-Linux-Release-x64-libc++.zip
+        7z x Skia-Linux-Release-x64-libc++.zip
         cmake -S . -B build -G Ninja \
           -DCMAKE_BUILD_TYPE=${{ matrix.build_type }} \
           -DENABLE_UI=${{ matrix.enable_ui }} \
           -DENABLE_CCACHE=$enable_ccache \
           -DLAF_BACKEND=skia \
-          -DSKIA_DIR=/home/administrator/Skia-Linux-Release-x64-libstdc++ \
-          -DSKIA_LIBRARY_DIR=/home/administrator/Skia-Linux-Release-x64-libstdc++/skia/out/Release-x64 \
-          -DSKIA_LIBRARY=/home/administrator/Skia-Linux-Release-x64-libstdc++/skia/out/Release-x64/skia.lib
+          -DSKIA_DIR=/home/administrator/Skia-Linux-Release-x64-libc++ \
+          -DSKIA_LIBRARY_DIR=/home/administrator/Skia-Linux-Release-x64-libc++/skia/out/Release-x64 \
+          -DSKIA_LIBRARY=/home/administrator/Skia-Linux-Release-x64-libc++/skia/out/Release-x64/skia.lib
     - name: Compiling
       shell: bash
       run: |
@@ -47,4 +47,4 @@ jobs:
       with:
         name: aseprite
         path: |
-          /home/administrator/Skia-Linux-Release-x64-libstdc++/aseprite/build/bin/aseprite
+          /home/administrator/Skia-Linux-Release-x64-libc++/aseprite/build/bin/aseprite
